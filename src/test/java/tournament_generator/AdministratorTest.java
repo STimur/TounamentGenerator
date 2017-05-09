@@ -24,9 +24,9 @@ public class AdministratorTest {
 
     @Test
     public void whenNewPlayerRegistered_ThenNumberOfRegisteredPlayersIncrements() throws Exception {
-        admin.registerPlayer(new Player());
+        admin.registerPlayer(new Player("Roger", "Federer"));
         assertEquals(1, admin.getNumberOfRegisteredPlayers());
-        admin.registerPlayer(new Player());
+        admin.registerPlayer(new Player("Raphael", "Nadal"));
         assertEquals(2, admin.getNumberOfRegisteredPlayers());
     }
 
