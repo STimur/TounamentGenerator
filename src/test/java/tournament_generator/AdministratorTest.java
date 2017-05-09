@@ -19,11 +19,11 @@ public class AdministratorTest {
     private static Player[] players;
 
     @BeforeClass
-    public static void createSeventeenPlayers() throws Exception {
-        players = new Player[17];
-        for (Integer i = 0; i < players.length; i++) {
+    public static void createPlayers() throws Exception {
+        final int NUMBER_OF_PLAYERS_TO_CREATE = 20;
+        players = new Player[NUMBER_OF_PLAYERS_TO_CREATE];
+        for (Integer i = 0; i < NUMBER_OF_PLAYERS_TO_CREATE; i++)
             players[i] = new Player(i.toString(), i.toString());
-        }
     }
 
     @Before
@@ -32,7 +32,8 @@ public class AdministratorTest {
     }
 
     private void registerSeventeenPlayers() {
-        for (Integer i = 0; i < players.length; i++) {
+        final int PLAYERS_TO_REGISTER = 17;
+        for (Integer i = 0; i < PLAYERS_TO_REGISTER; i++) {
             admin.registerPlayer(players[i]);
         }
     }
@@ -40,7 +41,6 @@ public class AdministratorTest {
     private void assertNumberOfRegisteredPlayersEquals(int expected) {
         assertEquals(expected, admin.getNumberOfRegisteredPlayers());
     }
-
 
     private void registerPlayers(int numberOfPlayersToRegister) {
         for (Integer i = 0; i < numberOfPlayersToRegister; i++) {
@@ -54,7 +54,7 @@ public class AdministratorTest {
     }
 
     @Test(expected = Administrator.PlayerRegistrationException.class)
-    public void givenNullPlayer_regiterPlayerThrowsPlayerRegistrationException() throws Exception {
+    public void givenNullPlayer_registerPlayerThrowsPlayerRegistrationException() throws Exception {
         admin.registerPlayer(null);
     }
 
@@ -84,7 +84,7 @@ public class AdministratorTest {
     }
 
     @Test
-    public void afterSeedTournamentPlayersAreInAnotherOrder() throws Exception {
+    public void afterSeedTournamentPlayersAreNotInOrderOfRegistration() throws Exception {
         registerPlayers(Administrator.MAX_PLAYERS_IN_TOURNAMENT);
         List<Player> playersBeforeSeed = admin.getRegisteredPlayers();
         admin.seedTournament();
@@ -93,15 +93,14 @@ public class AdministratorTest {
     }
 
     @Test
-    public void afterEverySeedTournamentPlayersAreInAnotherOrder() throws Exception {
+    public void afterEverySeedTournamentPlayersSeedIsDifferent() throws Exception {
         registerPlayers(Administrator.MAX_PLAYERS_IN_TOURNAMENT);
-        List<Player> playersAfterSeed;
-        List<Player> playersAfterAnotherSeed;
-        for (int i = 0; i < 10; i++) {
+        final int NUMBER_OF_SEEDS = 10;
+        for (int i = 0; i < NUMBER_OF_SEEDS; i++) {
             admin.seedTournament();
-            playersAfterSeed = admin.getPlayersSeed();
+            List<Player> playersAfterSeed = admin.getPlayersSeed();
             admin.seedTournament();
-            playersAfterAnotherSeed = admin.getPlayersSeed();
+            List<Player> playersAfterAnotherSeed = admin.getPlayersSeed();
             assertNotEquals(playersAfterSeed, playersAfterAnotherSeed);
         }
     }
