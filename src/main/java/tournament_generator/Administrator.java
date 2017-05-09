@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class Administrator {
     public static final int MAX_PLAYERS_IN_TOURNAMENT = 16;
+
     private List<Player> registeredPlayers = new ArrayList();
     private List<Player> playersSeed = new ArrayList<>();
 
@@ -28,8 +29,7 @@ public class Administrator {
     public void seedTournament() {
         if (registeredPlayers.size() != MAX_PLAYERS_IN_TOURNAMENT)
             throw new SeedTournamentException();
-        playersSeed = new ArrayList<>(registeredPlayers);
-        Collections.shuffle(playersSeed);
+        Collections.shuffle(playersSeed = new ArrayList<>(registeredPlayers));
     }
 
     public List<Player> getRegisteredPlayers() {
