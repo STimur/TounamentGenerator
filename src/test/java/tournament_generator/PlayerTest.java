@@ -16,6 +16,14 @@ public class PlayerTest {
         assertTrue(player.getSurname().length() > 1);
     }
 
+    private void assertPlayerEquals(Player otherPlayer) {
+        assertTrue(player.equals(otherPlayer));
+    }
+
+    private void assertPlayerNotEquals(Player otherPlayer) {
+        assertFalse(player.equals(otherPlayer));
+    }
+
     @Test
     public void playerMustHaveNameAndSurname() throws Exception {
         player = new Player("Jack", "Sparrow");
@@ -34,11 +42,13 @@ public class PlayerTest {
 
     @Test
     public void playersWithSameNamesAndSurnamesAreEqual() throws Exception {
-        assertTrue(new Player("1", "1").equals(new Player("1", "1")));
+        player = new Player("1", "1");
+        assertPlayerEquals(new Player("1", "1"));
     }
 
     @Test
     public void playersWithDifferentNamesAndSurnamesAreNotEqual() throws Exception {
-        assertFalse(new Player("1", "1").equals(new Player("1", "2")));
+        player = new Player("1", "1");
+        assertPlayerNotEquals(new Player("1", "2"));
     }
 }
