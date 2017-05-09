@@ -31,4 +31,14 @@ public class PlayerTest {
     public void whenEmptyName_ThenThrowsEmptySurnameException() throws Exception {
         player = new Player("Jack", "");
     }
+
+    @Test
+    public void playersWithSameNamesAndSurnamesAreEqual() throws Exception {
+        assertTrue(new Player("1", "1").equals(new Player("1", "1")));
+    }
+
+    @Test
+    public void playersWithDifferentNamesAndSurnamesAreNotEqual() throws Exception {
+        assertFalse(new Player("1", "1").equals(new Player("1", "2")));
+    }
 }

@@ -2,9 +2,13 @@ package tournament_generator;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Created by Timur on 09-May-17.
@@ -37,6 +41,13 @@ public class AdministratorTest {
         assertEquals(expected, admin.getNumberOfRegisteredPlayers());
     }
 
+
+    private void registerPlayers(int numberOfPlayersToRegister) {
+        for (Integer i = 0; i < numberOfPlayersToRegister; i++) {
+            admin.registerPlayer(players[i]);
+        }
+    }
+
     @Test
     public void whenNoPlayersRegistered_ThenNumberOfRegisteredPlayersEqualsZero() throws Exception {
         assertNumberOfRegisteredPlayersEquals(0);
@@ -59,4 +70,40 @@ public class AdministratorTest {
     public void WhenSeventeenthPlayerAttemptsToRegister_ThenThrowsPlayerRegistrationException() throws Exception {
         registerSeventeenPlayers();
     }
+
+    @Test(expected = Administrator.SeedTournamentException.class)
+    public void WhenThereAreNoSixteenPlayersRegistered_SeedTournament_ThrowsTournamentSeedException() throws Exception {
+        admin.seedTournament();
+    }
+
+    @Test
+    public void afterSeedTournamentGetSeededPlayersContainsSixteenPlayers() throws Exception {
+        registerPlayers(Administrator.MAX_PLAYERS_IN_TOURNAMENT);
+        admin.seedTournament();
+        assertTrue(admin.getPlayersSeed().size() == 16);
+    }
+
+    @Test
+    public void afterSeedTournamentPlayersAreInAnotherOrder() throws Exception {
+        registerPlayers(Administrator.MAX_PLAYERS_IN_TOURNAMENT);
+        List<Player> playersBeforeSeed = admin.getRegisteredPlayers();
+        admin.seedTournament();
+        List<Player> playersAfterSeed = admin.getPlayersSeed();
+        assertNotEquals(playersBeforeSeed, playersAfterSeed);
+    }
+
+    @Test
+    public void afterEverySeedTournamentPlayersAreInAnotherOrder() throws Exception {
+        registerPlayers(Administrator.MAX_PLAYERS_IN_TOURNAMENT);
+        List<Player> playersAfterSeed;
+        List<Player> playersAfterAnotherSeed;
+        for (int i = 0; i < 10; i++) {
+            admin.seedTournament();
+            playersAfterSeed = admin.getPlayersSeed();
+            admin.seedTournament();
+            playersAfterAnotherSeed = admin.getPlayersSeed();
+            assertNotEquals(playersAfterSeed, playersAfterAnotherSeed);
+        }
+    }
+
 }
