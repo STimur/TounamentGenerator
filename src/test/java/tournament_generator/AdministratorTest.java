@@ -105,4 +105,37 @@ public class AdministratorTest {
         }
     }
 
+    @Test
+    public void whenTournamentIsNotFinished_ThenIsTournamentFinishedReturnsFalse() throws Exception {
+        assertFalse(admin.isTournamentFinished());
+    }
+
+    @Test(expected = Administrator.PlayersNotSeededToStartTournamentException.class)
+    public void givenPlayersAreNotSeeded_WhenStartTournament_ThenThrowsPlayersNotSeededToStartTournamentException() throws Exception {
+        admin.startTournament();
+    }
+
+    @Test
+    public void existsEightMatchesInFirstRound() throws Exception {
+        assertEquals(Administrator.NUMBER_OF_FIRST_ROUND_MATCHES, admin.getFirstRoundMatches().size());
+    }
+
+    @Test
+    public void givenPlayersAreNotSeeded_ThenPlayersAreNotAssignedToFirstRoundMatches() throws Exception {
+        assertNull(admin.getFirstRoundMatches().get(0).getFirstPlayer());
+        assertNull(admin.getFirstRoundMatches().get(0).getSecondPlayer());
+    }
+
+    @Test
+    @Ignore
+    public void givenPlayersAreSeeded_ThenPlayersAreAssignedToFirstRoundMatches() throws Exception {
+        assertNotNull(admin.getFirstRoundMatches().get(0).getFirstPlayer());
+        assertNotNull(admin.getFirstRoundMatches().get(0).getSecondPlayer());
+    }
+
+    @Test
+    @Ignore
+    public void whenTournamentIsFinished_ThenIsTournamentFinishedReturnsTrue() throws Exception {
+        assertTrue(admin.isTournamentFinished());
+    }
 }
