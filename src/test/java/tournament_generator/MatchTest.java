@@ -1,36 +1,101 @@
 package tournament_generator;
 
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Created by Timur on 03-May-17.
  */
 public class MatchTest {
+    final private int[] firstPlayerWonScores = new int[]{11, 0, 11, 0, 11, 0};
+    final private int[] secondPlayerWonScores = new int[]{0, 11, 0, 11, 0, 11};
+    final Player firstPlayer = new Player("1", "1");
+    final Player secondPlayer = new Player("1", "1");
+
+    private Match match;
+
+    private MatchScore createMatchScore(int scores[]) {
+        return new MatchScore.MatchScoreBuilder(Arrays.asList(
+                new SetScore.SetScoreBuilder(scores[0], scores[1]).build(),
+                new SetScore.SetScoreBuilder(scores[2], scores[3]).build(),
+                new SetScore.SetScoreBuilder(scores[4], scores[5]).build()
+        )).build();
+    }
+
+    @Before
+    public void setUp() {
+        match = new Match();
+        match.setFirstPlayer(firstPlayer);
+        match.setSecondPlayer(secondPlayer);
+    }
+
     @Test
-    public void haveFiveSets() throws Exception {
-        Match match = new Match();
-        assertEquals(5, match.getNumberOfSets());
+    public void knowsItsFirstPlayer() throws Exception {
+        Player player = new Player("1", "1");
+        match.setFirstPlayer(player);
+        assertEquals(player, match.getFirstPlayer());
+    }
+
+    @Test
+    public void knowsItsSecondPlayer() throws Exception {
+        Player player = new Player("1", "1");
+        match.setSecondPlayer(player);
+        assertEquals(player, match.getSecondPlayer());
+    }
+
+    @Test
+    public void givenMatchScoreIsSet_ThenIsFinishedReturnsTrue() throws Exception {
+        MatchScore matchScore = createMatchScore(firstPlayerWonScores);
+        match.setMatchScore(matchScore);
+        assertTrue(match.isFinished());
+    }
+
+    @Test
+    public void givenMatchScoreIsNotSet_ThenIsFinishedReturnsFalse() throws Exception {
+        assertFalse(match.isFinished());
     }
 
     @Test(expected = Match.NoScoreForUnfinishedMatch.class)
-    public void getMatchScore_ThrowsExceptionIfMatchIsNotFinished() throws Exception {
-        Match match = new Match();
+    public void givenMatchIsNotFinished_WhenGetMatchScore_ThenThrowsNoScoreForUnfinishedMatch() throws Exception {
         match.getMatchScore();
     }
 
     @Test
-    public void whenMatchFinished_canGetMatchScore() throws Exception {
-        Match match = new Match();
-        match.setMatchScore(new MatchScore.MatchScoreBuilder(Arrays.asList(
-                new SetScore.SetScoreBuilder(11, 0).build(),
-                new SetScore.SetScoreBuilder(11, 0).build(),
-                new SetScore.SetScoreBuilder(11, 0).build()
-        )).build());
-        assertEquals("11-0 11-0 11-0", match.getMatchScore().toString());
+    public void givenMatchIsFinished_WhenGetMatchScore_ThenReturnsMatchScore() throws Exception {
+        MatchScore matchScore = createMatchScore(firstPlayerWonScores);
+        match.setMatchScore(matchScore);
+        assertEquals(matchScore, match.getMatchScore());
     }
+
+    @Test(expected = Match.NoWinnerForUnfinishedMatch.class)
+    public void givenMatchIsNotFinished_WhenGetWinner_ThenThrowsNoWinnerForUnfinishedMatch() throws Exception {
+        match.getWinner();
+    }
+
+    @Test
+    public void givenMatchScoreIsSet_WhenGetWinner_ThenReturnsPlayerInstance() throws Exception {
+        match.setMatchScore(createMatchScore(firstPlayerWonScores));
+        assertTrue(match.getWinner() instanceof Player);
+    }
+
+    @Test
+    public void givenMatchScoreIsSetAndFirstPlayerWon_WhenGetWinner_ThenReturnsTheFirstPlayer() throws Exception {
+        match.setMatchScore(createMatchScore(firstPlayerWonScores));
+        assertEquals(firstPlayer, match.getWinner());
+    }
+
+    @Test
+    public void givenMatchScoreIsSetAndSecondPlayerWon_WhenGetWinner_ThenReturnsTheSecondPlayer() throws Exception {
+        match.setMatchScore(createMatchScore(secondPlayerWonScores));
+        assertEquals(secondPlayer, match.getWinner());
+    }
+
+
+
+    
 }

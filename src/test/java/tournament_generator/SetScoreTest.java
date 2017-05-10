@@ -1,8 +1,10 @@
 package tournament_generator;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -16,6 +18,14 @@ public class SetScoreTest {
 
     private void assertInvalidSetScore(int first, int second) {
         new SetScore.SetScoreBuilder(first, second).build();
+    }
+
+    private SetScore createSetScoreWhereFirstPlayerWon() {
+        return new SetScore.SetScoreBuilder(11, 0).build();
+    }
+
+    private SetScore createSetScoreWhereSecondPlayerWon() {
+        return new SetScore.SetScoreBuilder(0, 11).build();
     }
 
     @Test
@@ -45,4 +55,15 @@ public class SetScoreTest {
         assertEquals(EXPECTED_NUMBER_OF_CATCHED_EXCEPTIONS, i);
     }
 
+    @Test
+    public void givenFirstPlayerWon_HasFirstWonReturnsTrue() throws Exception {
+        SetScore setScore = createSetScoreWhereFirstPlayerWon();
+        assertTrue(setScore.hasFirstWon());
+    }
+
+    @Test
+    public void givenSecondPlayerWon_HasFirstWonReturnsFalse() throws Exception {
+        SetScore setScore = createSetScoreWhereSecondPlayerWon();
+        assertFalse(setScore.hasFirstWon());
+    }
 }

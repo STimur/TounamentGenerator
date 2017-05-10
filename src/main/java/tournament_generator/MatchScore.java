@@ -27,6 +27,12 @@ public class MatchScore {
         return true;
     }
 
+    public boolean hasFirstWon() {
+        if (setScores.stream().filter(s -> s.hasFirstWon()).count() < 3)
+            return false;
+        return true;
+    }
+
     /**
      * Created by Timur on 04-May-17.
      */

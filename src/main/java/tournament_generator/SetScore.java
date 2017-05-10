@@ -22,6 +22,12 @@ public class SetScore {
         return firstScore + "-" + secondScore;
     }
 
+    public boolean hasFirstWon() {
+        if (firstScore < secondScore)
+            return false;
+        return true;
+    }
+
     /**
      * Created by Timur on 04-May-17.
      */

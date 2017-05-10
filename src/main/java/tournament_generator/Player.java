@@ -24,7 +24,7 @@ public class Player {
         return surname;
     }
 
-    public boolean equals(Object o) {
+    /*public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -32,7 +32,7 @@ public class Player {
 
         if (name != null ? !name.equals(player.name) : player.name != null) return false;
         return surname != null ? surname.equals(player.surname) : player.surname == null;
-    }
+    }*/
 
     public class EmptyNameException extends RuntimeException {}
 

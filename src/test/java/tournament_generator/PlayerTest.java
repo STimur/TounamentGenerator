@@ -41,14 +41,8 @@ public class PlayerTest {
     }
 
     @Test
-    public void playersWithSameNamesAndSurnamesAreEqual() throws Exception {
+    public void playersWithSameNamesAndSurnamesAreNotEqual() throws Exception {
         player = new Player("1", "1");
-        assertPlayerEquals(new Player("1", "1"));
-    }
-
-    @Test
-    public void playersWithDifferentNamesAndSurnamesAreNotEqual() throws Exception {
-        player = new Player("1", "1");
-        assertPlayerNotEquals(new Player("1", "2"));
+        assertPlayerNotEquals(new Player("1", "1"));
     }
 }
