@@ -95,7 +95,36 @@ public class MatchTest {
         assertEquals(secondPlayer, match.getWinner());
     }
 
+    @Test
+    public void hasNumber() throws Exception {
+        match.setNumber(1);
+        assertEquals(1, match.getNumber());
+    }
 
+    @Test
+    public void givenNextMatchIsNull_HasNextMatch_ReturnsFalse() throws Exception {
+        assertFalse(match.hasNextMatch());
+    }
 
-    
+    @Test
+    public void givenNextMatchIsNotNull_HasNextMatch_ReturnsFalse() throws Exception {
+        match.setNextMatch(new Match());
+        assertTrue(match.hasNextMatch());
+    }
+
+    @Test
+    public void givenMatchHasOddNumberAndHasNextMatch_WhenMatchScoreIsSet_ThenWinnerIsAssignedAsFirstPlayerToNextMatch() throws Exception {
+        match.setNumber(1);
+        match.setNextMatch(new Match());
+        match.setMatchScore(createMatchScore(firstPlayerWonScores));
+        assertEquals(match.getNextMatch().getFirstPlayer(), match.getWinner());
+    }
+
+    @Test
+    public void givenMatchHasEvenNumberAndHasNextMatch_WhenMatchScoreIsSet_ThenWinnerIsAssignedAsSecondPlayerToNextMatch() throws Exception {
+        match.setNumber(2);
+        match.setNextMatch(new Match());
+        match.setMatchScore(createMatchScore(firstPlayerWonScores));
+        assertEquals(match.getNextMatch().getSecondPlayer(), match.getWinner());
+    }
 }

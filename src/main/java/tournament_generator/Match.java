@@ -9,6 +9,8 @@ public class Match {
     private Player firstPlayer;
     private Player secondPlayer;
     private boolean hasFirstPlayerWon;
+    private int number;
+    private Match nextMatch;
 
     public Match() {
         isFinished = false;
@@ -25,6 +27,16 @@ public class Match {
         if (matchScore.hasFirstWon())
             hasFirstPlayerWon = true;
         this.matchScore = matchScore;
+
+        if (hasNextMatch())
+            promoteWinnerToNextMatch();
+    }
+
+    private void promoteWinnerToNextMatch() {
+        if (number % 2 == 1)
+            nextMatch.setFirstPlayer(getWinner());
+        else
+            nextMatch.setSecondPlayer(getWinner());
     }
 
     public Player getWinner() {
@@ -55,6 +67,26 @@ public class Match {
         if (matchScore == null)
             return false;
         return true;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public boolean hasNextMatch() {
+        return nextMatch != null;
+    }
+
+    public void setNextMatch(Match nextMatch) {
+        this.nextMatch = nextMatch;
+    }
+
+    public Match getNextMatch() {
+        return nextMatch;
     }
 
     public class NoScoreForUnfinishedMatch extends RuntimeException {}
