@@ -117,19 +117,9 @@ public class AdministratorTest {
         }
     }
 
-    @Test
-    public void whenTournamentIsNotFinished_ThenIsTournamentFinishedReturnsFalse() throws Exception {
-        assertFalse(admin.isTournamentFinished());
-    }
-
     @Test(expected = Administrator.PlayersNotSeededToStartTournamentException.class)
     public void givenPlayersAreNotSeeded_WhenStartTournament_ThenThrowsPlayersNotSeededToStartTournamentException() throws Exception {
         admin.startTournament();
-    }
-
-    @Test
-    public void existsEightMatchesInFirstRound() throws Exception {
-        assertEquals(Administrator.NUMBER_OF_FIRST_ROUND_MATCHES, admin.getFirstRoundMatches().size());
     }
 
     @Test
@@ -147,22 +137,70 @@ public class AdministratorTest {
 
     @Test
     public void thereAreFifteenMatchesInTournament() throws Exception {
-        assertEquals(admin.NUMBER_OF_MATCHES_IN_TOURNAMENT, admin.getAllMatches().size());
+        assertEquals(Administrator.NUMBER_OF_MATCHES_IN_TOURNAMENT, admin.getAllMatches().size());
     }
 
     @Test
     public void FinalMatchIsLastInListOfAllMatches() throws Exception {
-        assertEquals(admin.getAllMatches().get(admin.NUMBER_OF_MATCHES_IN_TOURNAMENT-1), admin.getFinalMatch());
+        assertEquals(admin.getAllMatches().get(Administrator.NUMBER_OF_MATCHES_IN_TOURNAMENT-1), admin.getFinalMatch());
     }
 
     @Test
     public void thereAreTwoSemiFinalMatches() throws Exception {
-        assertEquals(admin.NUMBER_OF_SEMIFINAL_MATCHES, admin.getSemiFinalMatches().size());
+        assertEquals(Administrator.NUMBER_OF_SEMIFINAL_MATCHES, admin.getSemiFinalMatches().size());
     }
 
     @Test
     public void thereAreFourQuarterFinalMatches() throws Exception {
-        assertEquals(admin.NUMBER_OF_QUARTER_FINAL_MATCHES, admin.getQuarterFinalMatches().size());
+        assertEquals(Administrator.NUMBER_OF_QUARTER_FINAL_MATCHES, admin.getQuarterFinalMatches().size());
+    }
+
+    @Test
+    public void thereAreEightMatchesInFirstRound() throws Exception {
+        assertEquals(Administrator.NUMBER_OF_FIRST_ROUND_MATCHES, admin.getFirstRoundMatches().size());
+    }
+
+    @Test
+    public void finalMatchHasNoNextMatch() throws Exception {
+        assertNull(admin.getFinalMatch().getNextMatch());
+    }
+
+    @Test
+    public void semiFinalMatchesHasFinalAsNextMatch() throws Exception {
+        assertEquals(admin.getFinalMatch(), admin.getSemiFinalMatches().get(0).getNextMatch());
+        assertEquals(admin.getFinalMatch(), admin.getSemiFinalMatches().get(1).getNextMatch());
+    }
+
+    @Test
+    public void quarterFinalMatchesHaveProperSemiFinalMatchAsNextMatch() throws Exception {
+        assertEquals(admin.getSemiFinalMatches().get(0), admin.getQuarterFinalMatches().get(0).getNextMatch());
+        assertEquals(admin.getSemiFinalMatches().get(0), admin.getQuarterFinalMatches().get(1).getNextMatch());
+
+        assertEquals(admin.getSemiFinalMatches().get(1), admin.getQuarterFinalMatches().get(2).getNextMatch());
+        assertEquals(admin.getSemiFinalMatches().get(1), admin.getQuarterFinalMatches().get(3).getNextMatch());
+    }
+
+    @Test
+    public void firstRoundMatchesHaveProperQuarterFinalMatchAsNextMatch() throws Exception {
+        assertEquals(admin.getQuarterFinalMatches().get(0), admin.getFirstRoundMatches().get(0).getNextMatch());
+        assertEquals(admin.getQuarterFinalMatches().get(0), admin.getFirstRoundMatches().get(1).getNextMatch());
+
+        assertEquals(admin.getQuarterFinalMatches().get(1), admin.getFirstRoundMatches().get(2).getNextMatch());
+        assertEquals(admin.getQuarterFinalMatches().get(1), admin.getFirstRoundMatches().get(3).getNextMatch());
+
+        assertEquals(admin.getQuarterFinalMatches().get(2), admin.getFirstRoundMatches().get(4).getNextMatch());
+        assertEquals(admin.getQuarterFinalMatches().get(2), admin.getFirstRoundMatches().get(5).getNextMatch());
+
+        assertEquals(admin.getQuarterFinalMatches().get(3), admin.getFirstRoundMatches().get(6).getNextMatch());
+        assertEquals(admin.getQuarterFinalMatches().get(3), admin.getFirstRoundMatches().get(7).getNextMatch());
+    }
+
+
+
+
+    @Test
+    public void whenTournamentIsNotFinished_ThenIsTournamentFinishedReturnsFalse() throws Exception {
+        assertFalse(admin.isTournamentFinished());
     }
 
     @Test

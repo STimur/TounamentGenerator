@@ -1,8 +1,5 @@
 package tournament_generator;
 
-import com.sun.org.apache.regexp.internal.RE;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,18 +22,46 @@ public class Administrator {
     private List<Match> matches = new ArrayList<>();
 
     public Administrator() {
-        createTournamentMatches();
+        createTournament();
+    }
+
+    private void createTournament() {
+        for (int i = 0; i < NUMBER_OF_MATCHES_IN_TOURNAMENT; i++)
+            matches.add(new Match());
+        createFinalMatch();
+        createSemiFinalMatches();
+        createQuarterFinalMatches();
         createFirstRoundMatches();
     }
 
-    private void createTournamentMatches() {
-        for (int i = 0; i < NUMBER_OF_MATCHES_IN_TOURNAMENT; i++)
-            matches.add(new Match());
+    private void createQuarterFinalMatches() {
+        matches.get(NUMBER_OF_MATCHES_IN_TOURNAMENT-4).setNextMatch(getSemiFinalMatches().get(1));
+        matches.get(NUMBER_OF_MATCHES_IN_TOURNAMENT-5).setNextMatch(getSemiFinalMatches().get(1));
+        matches.get(NUMBER_OF_MATCHES_IN_TOURNAMENT-6).setNextMatch(getSemiFinalMatches().get(0));
+        matches.get(NUMBER_OF_MATCHES_IN_TOURNAMENT-7).setNextMatch(getSemiFinalMatches().get(0));
+    }
+
+    private void createSemiFinalMatches() {
+        matches.get(NUMBER_OF_MATCHES_IN_TOURNAMENT-2).setNextMatch(finalMatch);
+        matches.get(NUMBER_OF_MATCHES_IN_TOURNAMENT-3).setNextMatch(finalMatch);
+    }
+
+    private void createFinalMatch() {
+        finalMatch = matches.get(NUMBER_OF_MATCHES_IN_TOURNAMENT-1);
     }
 
     private void createFirstRoundMatches() {
+        matches.get(0).setNextMatch(getQuarterFinalMatches().get(0));
+        matches.get(1).setNextMatch(getQuarterFinalMatches().get(0));
+        matches.get(2).setNextMatch(getQuarterFinalMatches().get(1));
+        matches.get(3).setNextMatch(getQuarterFinalMatches().get(1));
+        matches.get(4).setNextMatch(getQuarterFinalMatches().get(2));
+        matches.get(5).setNextMatch(getQuarterFinalMatches().get(2));
+        matches.get(6).setNextMatch(getQuarterFinalMatches().get(3));
+        matches.get(7).setNextMatch(getQuarterFinalMatches().get(3));
+
         for (int i = 0; i < NUMBER_OF_FIRST_ROUND_MATCHES; i++)
-            firstRoundMatches.add(new Match());
+            firstRoundMatches.add(matches.get(i));
     }
 
     public int getNumberOfRegisteredPlayers() {
