@@ -48,6 +48,18 @@ public class AdministratorTest {
         }
     }
 
+
+    private void assertPlayersAreAssignedToFirstRoundMatches() {
+        for (Match m : admin.getFirstRoundMatches())
+            assertPlayersAreAssignedToMatch(m);
+    }
+
+    private void assertPlayersAreAssignedToMatch(Match m) {
+        assertNotNull(m.getFirstPlayer());
+        assertNotNull(m.getSecondPlayer());
+    }
+
+
     @Test
     public void whenNoPlayersRegistered_ThenNumberOfRegisteredPlayersEqualsZero() throws Exception {
         assertNumberOfRegisteredPlayersEquals(0);
@@ -127,10 +139,30 @@ public class AdministratorTest {
     }
 
     @Test
-    @Ignore
     public void givenPlayersAreSeeded_ThenPlayersAreAssignedToFirstRoundMatches() throws Exception {
-        assertNotNull(admin.getFirstRoundMatches().get(0).getFirstPlayer());
-        assertNotNull(admin.getFirstRoundMatches().get(0).getSecondPlayer());
+        registerPlayers(16);
+        admin.seedTournament();
+        assertPlayersAreAssignedToFirstRoundMatches();
+    }
+
+    @Test
+    public void thereAreFifteenMatchesInTournament() throws Exception {
+        assertEquals(admin.NUMBER_OF_MATCHES_IN_TOURNAMENT, admin.getAllMatches().size());
+    }
+
+    @Test
+    public void FinalMatchIsLastInListOfAllMatches() throws Exception {
+        assertEquals(admin.getAllMatches().get(admin.NUMBER_OF_MATCHES_IN_TOURNAMENT-1), admin.getFinalMatch());
+    }
+
+    @Test
+    public void thereAreTwoSemiFinalMatches() throws Exception {
+        assertEquals(admin.NUMBER_OF_SEMIFINAL_MATCHES, admin.getSemiFinalMatches().size());
+    }
+
+    @Test
+    public void thereAreFourQuarterFinalMatches() throws Exception {
+        assertEquals(admin.NUMBER_OF_QUARTER_FINAL_MATCHES, admin.getQuarterFinalMatches().size());
     }
 
     @Test
