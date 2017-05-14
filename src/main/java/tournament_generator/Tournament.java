@@ -13,6 +13,7 @@ public class Tournament {
     List<Match> matches = new ArrayList<Match>();
 
     public Tournament() {
+        createTournament();
     }
 
     void createTournament() {

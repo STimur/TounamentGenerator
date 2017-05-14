@@ -2,7 +2,6 @@ package tournament_generator;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -71,32 +70,6 @@ public class AdministratorTest {
         assertNull(m.getSecondPlayer());
     }
 
-    private void assertCertainSizeOfMatchesList(int size, List<Match> matches) {
-        assertEquals(size, matches.size());
-    }
-
-    private void assertFinalMatchIsLastInListOfAllMatches() {
-        assertEquals(admin.getAllMatches().get(Tournament.NUMBER_OF_MATCHES_IN_TOURNAMENT - 1), admin.getFinalMatch());
-    }
-
-    private void assertMatchHasNoNextMatch(Match finalMatch) {
-        assertNull(finalMatch.getNextMatch());
-    }
-
-    private void assertMatchesHaveCertainNextMatch(List<Match> matches, Match nextMatch) {
-        assertMatchHasNextMatch(matches.get(0), nextMatch);
-        assertMatchHasNextMatch(matches.get(1), nextMatch);
-    }
-
-    private void assertMatchHasNextMatch(Match match, Match nextMatch) {
-        assertEquals(nextMatch, match.getNextMatch());
-    }
-
-    private void assertMatchesHaveCertainNextRoundMatches(List<Match> matches, List<Match> nextMatches) {
-        for (int i = 0; i < nextMatches.size(); i++)
-            assertMatchesHaveCertainNextMatch(matches.subList(2 * i, 2 * i + 2), nextMatches.get(i));
-    }
-
     @Test
     public void whenNoPlayersRegistered_ThenNumberOfRegisteredPlayersEqualsZero() throws Exception {
         assertNumberOfRegisteredPlayersEquals(0);
@@ -162,43 +135,4 @@ public class AdministratorTest {
         assertPlayersAreAssignedToFirstRoundMatches();
     }
 
-    @Test
-    public void tournamentStructure() throws Exception {
-        assertCertainSizeOfMatchesList(Tournament.NUMBER_OF_MATCHES_IN_TOURNAMENT, admin.getAllMatches());
-        assertCertainSizeOfMatchesList(Tournament.NUMBER_OF_FIRST_ROUND_MATCHES, admin.getFirstRoundMatches());
-        assertCertainSizeOfMatchesList(Tournament.NUMBER_OF_QUARTER_FINAL_MATCHES, admin.getQuarterFinalMatches());
-        assertCertainSizeOfMatchesList(Tournament.NUMBER_OF_SEMIFINAL_MATCHES, admin.getSemiFinalMatches());
-        assertFinalMatchIsLastInListOfAllMatches();
-    }
-
-    @Test
-    public void finalMatchHasNoNextMatch() throws Exception {
-        assertMatchHasNoNextMatch(admin.getFinalMatch());
-    }
-
-    @Test
-    public void semiFinalMatchesHasFinalAsNextMatch() throws Exception {
-        assertMatchesHaveCertainNextMatch(admin.getSemiFinalMatches(), admin.getFinalMatch());
-    }
-
-    @Test
-    public void quarterFinalMatchesHaveProperSemiFinalMatchAsNextMatch() throws Exception {
-        assertMatchesHaveCertainNextRoundMatches(admin.getQuarterFinalMatches(), admin.getSemiFinalMatches());
-    }
-
-    @Test
-    public void firstRoundMatchesHaveProperQuarterFinalMatchAsNextMatch() throws Exception {
-        assertMatchesHaveCertainNextRoundMatches(admin.getFirstRoundMatches(), admin.getQuarterFinalMatches());
-    }
-
-    @Test
-    public void whenTournamentIsNotFinished_ThenIsTournamentFinishedReturnsFalse() throws Exception {
-        assertFalse(admin.isTournamentFinished());
-    }
-
-    @Test
-    @Ignore
-    public void whenTournamentIsFinished_ThenIsTournamentFinishedReturnsTrue() throws Exception {
-        assertTrue(admin.isTournamentFinished());
-    }
 }
