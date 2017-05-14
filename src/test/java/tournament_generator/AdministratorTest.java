@@ -76,7 +76,7 @@ public class AdministratorTest {
     }
 
     private void assertFinalMatchIsLastInListOfAllMatches() {
-        assertEquals(admin.getAllMatches().get(Administrator.NUMBER_OF_MATCHES_IN_TOURNAMENT - 1), admin.getFinalMatch());
+        assertEquals(admin.getAllMatches().get(Tournament.NUMBER_OF_MATCHES_IN_TOURNAMENT - 1), admin.getFinalMatch());
     }
 
     private void assertMatchHasNoNextMatch(Match finalMatch) {
@@ -164,10 +164,10 @@ public class AdministratorTest {
 
     @Test
     public void tournamentStructure() throws Exception {
-        assertCertainSizeOfMatchesList(Administrator.NUMBER_OF_MATCHES_IN_TOURNAMENT, admin.getAllMatches());
-        assertCertainSizeOfMatchesList(Administrator.NUMBER_OF_FIRST_ROUND_MATCHES, admin.getFirstRoundMatches());
-        assertCertainSizeOfMatchesList(Administrator.NUMBER_OF_QUARTER_FINAL_MATCHES, admin.getQuarterFinalMatches());
-        assertCertainSizeOfMatchesList(Administrator.NUMBER_OF_SEMIFINAL_MATCHES, admin.getSemiFinalMatches());
+        assertCertainSizeOfMatchesList(Tournament.NUMBER_OF_MATCHES_IN_TOURNAMENT, admin.getAllMatches());
+        assertCertainSizeOfMatchesList(Tournament.NUMBER_OF_FIRST_ROUND_MATCHES, admin.getFirstRoundMatches());
+        assertCertainSizeOfMatchesList(Tournament.NUMBER_OF_QUARTER_FINAL_MATCHES, admin.getQuarterFinalMatches());
+        assertCertainSizeOfMatchesList(Tournament.NUMBER_OF_SEMIFINAL_MATCHES, admin.getSemiFinalMatches());
         assertFinalMatchIsLastInListOfAllMatches();
     }
 
