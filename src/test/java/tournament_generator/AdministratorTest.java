@@ -71,22 +71,6 @@ public class AdministratorTest {
         assertNull(m.getSecondPlayer());
     }
 
-    private void assertThereAreFifteenMatchesInTournament() {
-        assertCertainSizeOfMatchesList(Administrator.NUMBER_OF_MATCHES_IN_TOURNAMENT, admin.getAllMatches());
-    }
-
-    private void assertThereAreTwoSemiFinalMatches() {
-        assertCertainSizeOfMatchesList(Administrator.NUMBER_OF_SEMIFINAL_MATCHES, admin.getSemiFinalMatches());
-    }
-
-    private void assertThereAreFourQuarterFinalMatches() {
-        assertCertainSizeOfMatchesList(Administrator.NUMBER_OF_QUARTER_FINAL_MATCHES, admin.getQuarterFinalMatches());
-    }
-
-    private void assertThereAreEightMatchesInFirstRound() {
-        assertCertainSizeOfMatchesList(Administrator.NUMBER_OF_FIRST_ROUND_MATCHES, admin.getFirstRoundMatches());
-    }
-
     private void assertCertainSizeOfMatchesList(int size, List<Match> matches) {
         assertEquals(size, matches.size());
     }
@@ -179,28 +163,12 @@ public class AdministratorTest {
     }
 
     @Test
-    public void thereAreFifteenMatchesInTournament() throws Exception {
-        assertThereAreFifteenMatchesInTournament();
-    }
-
-    @Test
-    public void FinalMatchIsLastInListOfAllMatches() throws Exception {
+    public void tournamentStructure() throws Exception {
+        assertCertainSizeOfMatchesList(Administrator.NUMBER_OF_MATCHES_IN_TOURNAMENT, admin.getAllMatches());
+        assertCertainSizeOfMatchesList(Administrator.NUMBER_OF_FIRST_ROUND_MATCHES, admin.getFirstRoundMatches());
+        assertCertainSizeOfMatchesList(Administrator.NUMBER_OF_QUARTER_FINAL_MATCHES, admin.getQuarterFinalMatches());
+        assertCertainSizeOfMatchesList(Administrator.NUMBER_OF_SEMIFINAL_MATCHES, admin.getSemiFinalMatches());
         assertFinalMatchIsLastInListOfAllMatches();
-    }
-
-    @Test
-    public void thereAreTwoSemiFinalMatches() throws Exception {
-        assertThereAreTwoSemiFinalMatches();
-    }
-
-    @Test
-    public void thereAreFourQuarterFinalMatches() throws Exception {
-        assertThereAreFourQuarterFinalMatches();
-    }
-
-    @Test
-    public void thereAreEightMatchesInFirstRound() throws Exception {
-        assertThereAreEightMatchesInFirstRound();
     }
 
     @Test
