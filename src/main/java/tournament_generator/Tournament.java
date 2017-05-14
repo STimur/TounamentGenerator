@@ -1,6 +1,7 @@
 package tournament_generator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Tournament {
@@ -79,5 +80,13 @@ public class Tournament {
 
     public List<Match> getQuarterFinalMatches() {
         return matches.subList(NUMBER_OF_MATCHES_IN_TOURNAMENT - 7, NUMBER_OF_MATCHES_IN_TOURNAMENT - 3);
+    }
+
+    public void finish() {
+        finalMatch.setMatchScore(new MatchScore.MatchScoreBuilder(Arrays.asList(
+                new SetScore.SetScoreBuilder(11, 0).build(),
+                new SetScore.SetScoreBuilder(11, 0).build(),
+                new SetScore.SetScoreBuilder(11, 0).build()
+        )).build());
     }
 }

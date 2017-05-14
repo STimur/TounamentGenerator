@@ -76,8 +76,8 @@ public class TournamentTest {
     }
 
     @Test
-    @Ignore
     public void whenTournamentIsFinished_ThenIsTournamentFinishedReturnsTrue() throws Exception {
+        tournament.finish();
         Assert.assertTrue(tournament.isTournamentFinished());
     }
 }
